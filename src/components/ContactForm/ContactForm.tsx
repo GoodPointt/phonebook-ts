@@ -2,8 +2,8 @@ import { nanoid } from 'nanoid';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
 
-import { StyledBtn, ErrorMsg, StyledInput } from 'components/Styled.styled';
 import { INewContact } from 'components/App';
+import { StyledBtn, ErrorMsg, StyledInput } from 'components/Styled.styled';
 
 interface IContactForm {
   addNewContact: (addNewContact: INewContact) => void | boolean;

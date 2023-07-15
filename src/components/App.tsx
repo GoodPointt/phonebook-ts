@@ -1,12 +1,11 @@
-import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { StyledBtn, StyledContainer, StyledItemBtn } from './Styled.styled';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Contacts } from './Contacts/Contacts';
 import { Filter } from './Filter/Filter';
-import { StyledBtn, StyledContainer, StyledItemBtn } from './Styled.styled';
 import { Modal } from './Modal/Modal';
 
 export interface INewContact {
