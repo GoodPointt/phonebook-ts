@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -5,13 +6,21 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Contacts } from './Contacts/Contacts';
 import { Filter } from './Filter/Filter';
-import { StyledBtn, StyledContainer, StyledItemBtn } from './Styled';
+import { StyledBtn, StyledContainer, StyledItemBtn } from './Styled.styled';
 import { Modal } from './Modal/Modal';
 
-export const App = () => {
+export interface INewContact {
+  id: string;
+  name: string;
+  number: string;
+}
+
+export type ThandleChange = React.ChangeEvent<HTMLInputElement>;
+
+export const App: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem('contacts')) || []
+    JSON.parse(window.localStorage.getItem('contacts') || 'null') || []
   );
   const [filter, setFilter] = useState('');
 
@@ -19,34 +28,39 @@ export const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
-  const toggleModal = () => setShowModal(!showModal);
+  const toggleModal = () => {
+    setShowModal(!showModal);
+    setFilter('');
+  };
 
-  const isExist = newContact => {
+  const isExist = (newContact: INewContact): boolean => {
     return contacts.find(
-      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+      (contact: INewContact) =>
+        contact.name.toLowerCase() === newContact.name.toLowerCase()
     )
       ? true
       : false;
   };
 
-  const addNewContact = newContact => {
+  const addNewContact = (newContact: INewContact): void | boolean => {
     if (isExist(newContact)) {
-      return toast.warn(`${newContact.name} is already in contacts.`);
+      toast.warn(`${newContact.name} is already in contacts.`);
+      return;
     }
-    setContacts(prevState => [...prevState, newContact]);
+    setContacts((prevState: INewContact[]) => [...prevState, newContact]);
     toast.success(`${newContact.name} succesfully added to your contacts`);
     toggleModal();
   };
 
-  const deleteContact = contactId => {
-    setContacts(prevState => {
+  const deleteContact = (contactId: string) => {
+    setContacts((prevState: INewContact[]) => {
       const afterDelContcts = prevState.filter(
         contact => contactId !== contact.id
       );
       if (prevState.length > afterDelContcts.length) {
         toast.info(
           `${
-            prevState.find(contact => contactId === contact.id).name
+            prevState.find(contact => contactId === contact.id)?.name
           } was successfuly deleted from your contacts`
         );
         return afterDelContcts;
@@ -54,14 +68,13 @@ export const App = () => {
     });
   };
 
-  const handleChange = e => {
-    e.preventDefault();
-    const { value, name } = e.target;
+  const handleChange = (evt: ThandleChange): void => {
+    let { value, name } = evt.target;
     if (name === 'filter') setFilter(value);
   };
 
-  const filteredContacts = contacts.filter(
-    contact =>
+  const filteredContacts: INewContact[] = contacts.filter(
+    (contact: INewContact) =>
       contact.name.toLowerCase().includes(filter.toLowerCase()) ||
       contact.number.includes(filter)
   );
@@ -106,7 +119,7 @@ export const App = () => {
           <StyledItemBtn type="button" onClick={toggleModal}>
             X
           </StyledItemBtn>
-          <ContactForm addNewContact={addNewContact} closeModal={toggleModal} />
+          <ContactForm addNewContact={addNewContact} />
         </Modal>
       )}
       <ToastContainer

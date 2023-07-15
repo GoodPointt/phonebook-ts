@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types';
 
-import { ModalBackdrop, ModalContent } from 'components/Styled';
+import { ModalBackdrop, ModalContent } from 'components/Styled.styled';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-const modalRoot = document.querySelector('#modal-root');
+const modalRoot: HTMLElement | null = document.querySelector('#modal-root')!;
 
-export const Modal = ({ closeModal, children }) => {
+interface IModal {
+  closeModal: () => void;
+  children: React.ReactNode;
+}
+
+export const Modal = ({ closeModal, children }: IModal) => {
   useEffect(() => {
-    const handleKeyDown = e => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === 'Escape') closeModal();
     };
 
@@ -21,7 +26,7 @@ export const Modal = ({ closeModal, children }) => {
     };
   }, [closeModal]);
 
-  const handleBackdropClick = e => {
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.currentTarget === e.target && closeModal();
   };
 

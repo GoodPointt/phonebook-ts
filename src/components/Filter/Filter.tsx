@@ -1,7 +1,12 @@
-import PropTypes from 'prop-types';
-import { StyledInput } from '../Styled';
+import { StyledInput } from '../Styled.styled';
+import { ThandleChange } from 'components/App';
 
-export const Filter = ({ handleChange, filter }) => {
+interface IFilter {
+  handleChange: (evt: ThandleChange) => void;
+  filter: string;
+}
+
+export const Filter = ({ handleChange, filter }: IFilter) => {
   return (
     <StyledInput
       onChange={handleChange}
@@ -13,9 +18,4 @@ export const Filter = ({ handleChange, filter }) => {
       required
     />
   );
-};
-
-Filter.propTypes = {
-  handleChange: PropTypes.func.isRequired,
-  filter: PropTypes.string,
 };

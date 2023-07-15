@@ -1,12 +1,15 @@
-import PropTypes from 'prop-types';
-
 import { nanoid } from 'nanoid';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
 
-import { StyledBtn, ErrorMsg, StyledInput } from 'components/Styled';
+import { StyledBtn, ErrorMsg, StyledInput } from 'components/Styled.styled';
+import { INewContact } from 'components/App';
 
-export const ContactForm = ({ addNewContact }) => {
+interface IContactForm {
+  addNewContact: (addNewContact: INewContact) => void | boolean;
+}
+
+export const ContactForm = ({ addNewContact }: IContactForm) => {
   const initialValues = {
     name: '',
     number: '',
@@ -27,7 +30,7 @@ export const ContactForm = ({ addNewContact }) => {
       .required('Number is required'),
   });
 
-  const handleSubmit = values => {
+  const handleSubmit = (values: { name: string; number: string }) => {
     const id = nanoid();
     const newContact = {
       id,
@@ -64,9 +67,4 @@ export const ContactForm = ({ addNewContact }) => {
       </Form>
     </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  addNewContact: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired,
 };

@@ -1,17 +1,24 @@
+import { INewContact } from 'components/App';
 import {
   StyledItem,
   StyledItemBtn,
   StyledList,
   StyledText,
-} from 'components/Styled';
-import PropTypes from 'prop-types';
+} from 'components/Styled.styled';
+
+interface IContacts {
+  contacts: INewContact[];
+  filteredContacts: INewContact[];
+  filter: string;
+  deleteContact: (contactId: string) => void;
+}
 
 export const Contacts = ({
   contacts,
   filteredContacts,
   filter,
   deleteContact,
-}) => {
+}: IContacts) => {
   return (
     <>
       {filter ? (
@@ -57,10 +64,4 @@ export const Contacts = ({
       )}
     </>
   );
-};
-
-Contacts.propTypes = {
-  contacts: PropTypes.arrayOf(PropTypes.object),
-  filter: PropTypes.string,
-  deleteContact: PropTypes.func,
 };
