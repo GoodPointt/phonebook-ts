@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import { ModalBackdrop, ModalContent } from 'components/Styled.styled';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
@@ -36,8 +34,4 @@ export const Modal = ({ closeModal, children }: IModal) => {
     </ModalBackdrop>,
     modalRoot
   );
-};
-
-Modal.propTypes = {
-  closeModal: PropTypes.func.isRequired,
 };
